@@ -1,4 +1,3 @@
-# BLENDED_LERNING
 # Implementation-of-Multiple-Linear-Regression-Model-with-Cross-Validation-for-Predicting-Car-Prices
 
 ## AIM:
@@ -21,55 +20,54 @@ Program to implement the multiple linear regression model for predicting car pri
 Developed by: POOJASREE B
 RegisterNumber:  212223040148
 */
+# Program to implement the multiple linear regression model for predicting car prices with cross-validation.
+# Importing necessary libraries
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-import matplotlib.pyplot as plt
+import numpy as np
 
-data = pd.read_csv('car_price_prediction_.csv')
+# Load the dataset
+url = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML240EN-SkillsNetwork/labs/encoded_car_data.csv'
+df = pd.read_csv(url)
 
-print(data.head())
+# Select relevant features and target variable
+X = df.drop(columns=['price'])  # All columns except 'price'
+y = df['price']  # Target variable
 
-X = data[['Year', 'Engine Size', 'Mileage', 'Condition']] 
-y = data['Price'] 
-
-X = pd.get_dummies(X, drop_first=True)
-
+# Split the dataset (not strictly required for cross-validation, but good for validation outside cross-validation)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Train the Multiple Linear Regression model
 model = LinearRegression()
-
 model.fit(X_train, y_train)
 
+# Evaluate on test set
 y_pred = model.predict(X_test)
+print("Test Set Evaluation:")
+print("Mean Squared Error (MSE):", mean_squared_error(y_test, y_pred))
+print("R-squared:", r2_score(y_test, y_pred))
 
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-print(f'Mean Squared Error: {mse}')
-print(f'R-squared: {r2}')
+# Cross-Validation
+cv_scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')  # 5-fold CV
+cv_mse = -cv_scores  # Convert negative MSE to positive
+print("\nCross-Validation Results:")
+print("MSE for each fold:", cv_mse)
+print("Mean MSE:", np.mean(cv_mse))
+print("Standard Deviation of MSE:", np.std(cv_mse))
 
-cv_scores = cross_val_score(model, X, y, cv=5) 
-print(f'Cross-Validation Scores: {cv_scores}')
-print(f'Average Cross-Validation Score: {np.mean(cv_scores)}')
+# Cross-Validation R-squared
+cv_r2_scores = cross_val_score(model, X, y, cv=5, scoring='r2')
+print("\nR-squared for each fold:", cv_r2_scores)
+print("Mean R-squared:", np.mean(cv_r2_scores))
+print("Standard Deviation of R-squared:", np.std(cv_r2_scores))
 
-print("Intercept:", model.intercept_)
-print("Coefficients:", model.coef_)
-
-plt.figure(figsize=(10, 6))
-plt.scatter(y_test, y_pred, color='blue', label='Predicted Prices')
-plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', lw=2)  # Line for perfect prediction
-plt.xlabel('Actual Prices')
-plt.ylabel('Predicted Prices')
-plt.title('Actual vs Predicted Car Prices')
-plt.legend()
-plt.show()
 ```
 
 ## Output:
-![image](https://github.com/user-attachments/assets/777d6936-456d-4917-9705-6d6ba9322811)
-![image](https://github.com/user-attachments/assets/424e0af8-431a-4286-8ce1-ed08eaa70764)
+![image](https://github.com/user-attachments/assets/d7319746-97cd-4d93-ae07-9c8570194c02)
+
 
 
 
