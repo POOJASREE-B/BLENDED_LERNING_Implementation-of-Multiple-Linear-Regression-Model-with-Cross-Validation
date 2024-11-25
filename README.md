@@ -8,10 +8,35 @@ To write a program to predict the price of cars using a multiple linear regressi
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. Load the dataset
-2. Preprocess the data
-3. Train a Multiple Linear Regression Model
-4. Perform cross-validation
+1. **Import Libraries**:  
+   Bring in the necessary libraries.
+
+2. **Load the Dataset**:  
+   Load the dataset into your environment.
+
+3. **Data Preprocessing**:  
+   Handle any missing data and encode categorical variables as needed.
+
+4. **Define Features and Target**:  
+   Split the dataset into features (X) and the target variable (y).
+
+5. **Split Data**:  
+   Divide the dataset into training and testing sets.
+
+6. **Build Multiple Linear Regression Model**:  
+   Initialize and create a multiple linear regression model.
+
+7. **Train the Model**:  
+   Fit the model to the training data.
+
+8. **Evaluate Performance**:  
+   Assess the model's performance using cross-validation.
+
+9. **Display Model Parameters**:  
+   Output the model’s coefficients and intercept.
+
+10. **Make Predictions & Compare**:  
+    Predict outcomes and compare them to the actual values. 
 
 ## Program:
 ```
